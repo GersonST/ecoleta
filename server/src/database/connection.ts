@@ -10,6 +10,11 @@ const connection = knex({
 
 export default connection;
 
+//Migrations = Histórico do database
+
+//create table points
+//create table users
+
 //Mapeamento de Database
 
 // points (Pontos de coleta)
