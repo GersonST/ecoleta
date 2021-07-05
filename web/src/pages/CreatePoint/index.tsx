@@ -1,7 +1,13 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMapEvents,
+} from "react-leaflet";
 import api from "../../services/api";
 import axios from "axios";
 
@@ -30,6 +36,22 @@ const CreatePoint = () => {
 
   const [selectedUF, setSelectedUf] = useState("0");
   const [selectedCity, setSelectedCity] = useState("0");
+
+  //Arrumar o onCLick dentro do map leaflet
+
+  const [initialPosition, setInitialPosition] = useState<[number, number]>([
+    0, 0,
+  ]);
+  const [selectedPosition, setSelectedPosition] = useState<[number, number]>([
+    0, 0,
+  ]);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      setInitialPosition([latitude, longitude]);
+    });
+  }, []);
 
   // Sempre que criamos state para Array ou Objeto devemos informar o Type para o Typescript
 
@@ -77,6 +99,25 @@ const CreatePoint = () => {
     setSelectedCity(city);
   }
 
+  // Função para receber os dados de latitude e longitude quando o usuário clica no mapa
+
+  const Markers = () => {
+    const map = useMapEvents({
+      click(e) {
+        setSelectedPosition([e.latlng.lat, e.latlng.lng]);
+        console.log(e.latlng);
+        map.flyTo(e.latlng, map.getZoom());
+      },
+    });
+    return selectedPosition ? (
+      <Marker
+        key={selectedPosition[0]}
+        position={selectedPosition}
+        interactive={false}
+      />
+    ) : null;
+  };
+
   return (
     <div id="page-create-point">
       <header>
@@ -120,21 +161,16 @@ const CreatePoint = () => {
           </legend>
 
           <MapContainer
-            center={[-29.7764, -57.09]}
+            center={[-29.776436900000004, -57.090056499999996]}
             zoom={15}
             scrollWheelZoom={false}
           >
+            <Markers />
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={[-29.7764, -57.09]}>
-              <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-              </Popup>
-            </Marker>
           </MapContainer>
-
           <div className="field-group">
             <div className="field">
               <label htmlFor="uf">Estado (UF)</label>
