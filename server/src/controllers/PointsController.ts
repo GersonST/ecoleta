@@ -20,7 +20,7 @@ class PointsController {
     const serializedPoints = points.map((item) => {
       return {
         ...points,
-        image_url: `http://localhost:3333/uploads/${item.image}`,
+        image_url: `http://192.168.0.18:3333/uploads/${item.image}`,
       };
     });
 
@@ -43,7 +43,7 @@ class PointsController {
 
     const serializedPoint = {
       ...point,
-      image_url: `http://localhost:3333/uploads/${point.image}`,
+      image_url: `http://192.168.0.18:3333/uploads/${point.image}`,
     };
 
     return response.json({ point: serializedPoint, items });
@@ -58,8 +58,7 @@ class PointsController {
     const trx = await knex.transaction();
 
     const point = {
-      image:
-        "https://images.unsplash.com/photo-1488459716781-31db52582fe9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60",
+      image: request.file?.filename,
       name,
       email,
       whatsapp,
