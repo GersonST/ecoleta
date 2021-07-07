@@ -218,13 +218,18 @@ const CreatePoint: React.FC = () => {
             <span>Selecione o endereço no mapa</span>
           </legend>
 
-          <MapContainer center={[-29.7764438, -57.0900461]} zoom={15}>
-            <TileLayer
-              attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Markers />
-          </MapContainer>
+          {initialMapPosition[0] !== 0 && (
+            <MapContainer
+              center={[initialMapPosition[0], initialMapPosition[1]]}
+              zoom={15}
+            >
+              <TileLayer
+                attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Markers />
+            </MapContainer>
+          )}
 
           <div className="field-group">
             <div className="field">
