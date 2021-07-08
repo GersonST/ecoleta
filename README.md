@@ -1,6 +1,6 @@
 # ecoleta
 
-<img  height="400" src="assets/screen1.jpg">
+<img  height="400" src="assets/final.jpg">
 ♻️ Ecoleta é um projeto Open Source desenvolvido na Next Level Week (1.0) da Rocketseat utilizando TypeScript, Node, React e React Native.
 
 
